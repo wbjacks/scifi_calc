@@ -1,8 +1,15 @@
-typedef struct _matrix {
-	int row;
-	int col;
-	int values[row][col];
+/* Data structures */
 
-} __matrix;
-
-typedef struct _matrix MATRIX;
+	typedef struct _matrix {
+		int row;
+		int col;
+		int *values[];
+	
+	} __matrix;
+	
+	typedef struct _matrix MATRIX;
+	
+	
+/* Functional Prototypes */
+	
+	MATRIX *matrixMultiply(MATRIX a, MATRIX b);
