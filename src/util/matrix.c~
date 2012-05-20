@@ -30,7 +30,7 @@ MATRIX *matrixMultiply(MATRIX a, MATRIX b){
 
 		}
 		
-		m->values[k + j*m->cols] = val;
+		m->values(k + j*m->cols) = val;
 		val = 0;
 		
 	}

@@ -1,8 +1,8 @@
 /* Data structures */
 
 	typedef struct _matrix {
-		int rows;
-		int cols;
+		int row;
+		int col;
 		int *values[];
 	
 	} __matrix;
