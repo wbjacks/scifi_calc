@@ -12,6 +12,7 @@ operator:$(SOURCES)
 clean:
 	rm -f temp
 	rm -f *~
+	rm -f ../util/*~
 	rm -f *.*~
 	rm -f operator
 	rm -f *.o

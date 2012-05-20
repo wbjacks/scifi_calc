@@ -3,7 +3,7 @@
 	typedef struct _matrix {
 		int rows;
 		int cols;
-		int *values[];
+		int *values;
 	
 	} __matrix;
 	
