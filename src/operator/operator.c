@@ -5,6 +5,19 @@
 
 int main(int argc, char *argv[]){
 
+	char input[MAX_INPUT_LENGTH];
+
+	system("clear");
+	printf("Welcome to the Genre Calculator: Science Fiction edition!\n\n\n");
+	printf("Menu:");
+	printf("\t[L]oad Calculator\n");
+	printf("\t[C]reate New\n");
+	printf("\t[E]xit\n\n");
+	printf("Selection: ");
+
+	
+
+/*
 	MATRIX a;
 	MATRIX b;
 	MATRIX *result;
@@ -25,7 +38,7 @@ int main(int argc, char *argv[]){
 	
 	printf("\n\nMatrix result:");
 	result = matrixMultiply(a, b);
-	printMatrix(*result);
+	printMatrix(*result); */
 
 
 }

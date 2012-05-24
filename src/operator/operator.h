@@ -27,3 +27,5 @@
 // Dan Rockmore (Not Ellen)
 
 // Picaresque
+
+#define MAX_INPUT_LENGTH 15
