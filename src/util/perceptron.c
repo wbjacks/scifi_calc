@@ -1,5 +1,6 @@
 void perceptronLearn(int k, MATRIX in, MATRIX t, MATRIX *w) {
 
+	// Declare appropriate matrices
 	int i, j;
 	MATRIX net_j;
 		net_j.rows = l.rows;
@@ -13,14 +14,17 @@ void perceptronLearn(int k, MATRIX in, MATRIX t, MATRIX *w) {
 			memset(delta_w.values, 0, delta_w.rows * delta_w.cols);
 	MATRIX *y;
 	
+	// Calculate output
 	y = matrixMultiply(in, *w);
 	net_j = fNetJ(*y, 0);
 	
+	// Print output and training matrix
 	printf("\n\nLearn Output:\n");
 	printMatrix(*net_j);
 	printf("\n\nTraining Matrix:\n");
 	printMatrix(t);
 	
+	// Caclulate error matrix
 	for (i = 0; i < m->rows; i++){
 		for (j = 0; j < m->cols; ++j, ind = j + i * m->cols){
 			delta_w.values[ind] = k * (t[i] - y[i]) * in[i]; // This might go wrong
@@ -28,12 +32,14 @@ void perceptronLearn(int k, MATRIX in, MATRIX t, MATRIX *w) {
 		}
 	}
 	
+	// Output error matrix
 	printf("\n\nDelta_W Matrix:\n");
 	printMatrix(delta_w);
 	
+	// Add to weight matrix, free and return
 	w = matrixAdd(*w, delta_w);
-	
-	return w;
+	free(y);
+	return;
 	
 }
 
