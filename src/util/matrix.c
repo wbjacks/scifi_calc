@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "matrix.h"
 
 // Multiplies matrices. Returns a pointer to the resultant matrix if the inputs
@@ -19,7 +20,7 @@ MATRIX *matrixMultiply(MATRIX a, MATRIX b){
 
 	// Allocate space for new matrix
 	m = malloc(sizeof(MATRIX));
-		memset(m, 0, sizeof MATRIX);
+		memset(m, 0, sizeof(MATRIX));
 		m->rows = a.rows;
 		m->cols = b.cols;
 		m->values = malloc(a.rows * b.cols);
@@ -56,8 +57,8 @@ MATRIX *matrixAdd(MATRIX a, MATRIX b) {
 	}
 	
 	// Allocate memory for matrix
-	m = malloc(sizeof MATRIX);
-		memset(m, 0, sizeof MATRIX);
+	m = malloc(sizeof(MATRIX));
+		memset(m, 0, sizeof(MATRIX));
 		m->rows = a.rows;
 		m->cols = b.cols;
 		m->values = malloc(m->rows * m->cols);

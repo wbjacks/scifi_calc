@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include "operator.h"
 #include "../util/matrix.h"
+#include "../util/perceptron.h"
 
 
 int main(int argc, char *argv[]){
 
+/*
 	char input[MAX_INPUT_LENGTH];
 
 	system("clear");
@@ -18,29 +20,34 @@ int main(int argc, char *argv[]){
 	printf("Selection: ");
 
 	scanf(input);
-
-/*
+*/
 	MATRIX a;
 	MATRIX b;
-	MATRIX *result;
-	int val1[] = {1,4,2,5,2,4,1,4};
+	//MATRIX *result;
+	MATRIX t;
+	int val1[] = {1,4,2,4,1,4};
 	int val2[] = {5,8,7,4,6,8};
+	int val3[] = {0};
 	
-	a.rows = 4;
-	a.cols = 2;
-	b.rows = 2;
-	b.cols = 3;
+	t.rows = 1;
+	t.cols = 1;
+	t.values = val3;
+	
+	a.rows = 6;
+	a.cols = 1;
+	b.rows = 1;
+	b.cols = 6;
 	a.values = val1;
 	b.values = val2;
+
 	
 	printf("\n\nMatrix a:");
 	printMatrix(a);
 	printf("\n\nMatrix b:");
 	printMatrix(b);
 	
-	printf("\n\nMatrix result:");
-	result = matrixMultiply(a, b);
-	printMatrix(*result); */
+	perceptronLearn(1, a, t, &b);
+	printMatrix(b);
 
 
 }

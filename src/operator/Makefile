@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -pedantic -std=c99 -g -ggdb
-SOURCES=operator.c operator.h ../util/matrix.c ../util/matrix.h
-CFILES=operator.c ../util/matrix.c
+SOURCES=operator.c operator.h ../util/matrix.c ../util/matrix.h ../util/perceptron.c ../util/perceptron.h
+CFILES=operator.c ../util/matrix.c ../util/perceptron.c
 
 all:
 	make clean; make operator; make run;

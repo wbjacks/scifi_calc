@@ -1,10 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "perceptron.h"
+#include "matrix.h"
+
 void perceptronLearn(int k, MATRIX in, MATRIX t, MATRIX *w) {
 
 	// Declare appropriate matrices
 	int i, j;
 	MATRIX net_j;
-		net_j.rows = l.rows;
-		net_j.cols = l.cols;
+		net_j.rows = t.rows;
+		net_j.cols = t.cols;
 		net_j.values = malloc(net_j.rows * net_j.cols);
 			memset(net_j.values, 0, net_j.rows * net_j.cols);
 	MATRIX delta_w;
@@ -53,6 +59,7 @@ MATRIX *fNetJ(MATRIX y, int theta){
 		m->cols = y.cols;
 		m->values = malloc(m->rows * m->cols);
 		
+	// Make binaries happen
 	for (i = 0; i < m->rows; i++){
 		for (j = 0; j < m->cols; ++j, ind = j + i * m->cols){
 			if (y.values[ind] >= theta) {
@@ -61,7 +68,6 @@ MATRIX *fNetJ(MATRIX y, int theta){
 			} else {
 				m->values[ind] = 0;
 			}
-		
 		}
 	}
 	
