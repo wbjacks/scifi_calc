@@ -12,13 +12,14 @@ MATRIX *matrixMultiply(MATRIX a, MATRIX b){
 
 	// Check matrix compatibility
 	if (a.cols != b.rows) {
-		printf("Input matrix not");
+		fprintf(stderr, "Matrices not of proper size for multiplcation.\n");
 		return NULL;
 
 	}
 
 	// Allocate space for new matrix
 	m = malloc(sizeof(MATRIX));
+		memset(m, 0, sizeof MATRIX);
 		m->rows = a.rows;
 		m->cols = b.cols;
 		m->values = malloc(a.rows * b.cols);
@@ -39,6 +40,39 @@ MATRIX *matrixMultiply(MATRIX a, MATRIX b){
 
 	return m;
 
+}
+
+// Given two input matrices, returns a pointer to their sum
+MATRIX *matrixAdd(MATRIX a, MATRIX b) {
+
+	int i, j, ind;
+	MATRIX *m;
+
+	// Check size
+	if (a.cols != b.cols || a.rows != b.rows){
+		fprintf(stderr, "Mismatched size for matrix addition.\n");
+		return NULL;
+	
+	}
+	
+	// Allocate memory for matrix
+	m = malloc(sizeof MATRIX);
+		memset(m, 0, sizeof MATRIX);
+		m->rows = a.rows;
+		m->cols = b.cols;
+		m->values = malloc(m->rows * m->cols);
+			memset(m->values, 0, (m->rows * m->cols));
+	
+	// Calculate matrix
+	for (i = 0; i < m->rows; i++){
+		for (j = 0; j < m->cols; ++j, ind = j + i * m->cols){
+			m->values[ind] = a.values[ind] + b.values[ind];
+		
+		}
+	}
+	
+	return m;
+	
 }
 
 // Prints an input matrix in human-readable format

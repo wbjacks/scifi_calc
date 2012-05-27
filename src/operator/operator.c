@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "operator.h"
 #include "../util/matrix.h"
 
 
@@ -12,10 +13,11 @@ int main(int argc, char *argv[]){
 	printf("Menu:");
 	printf("\t[L]oad Calculator\n");
 	printf("\t[C]reate New\n");
+	
 	printf("\t[E]xit\n\n");
 	printf("Selection: ");
 
-	
+	scanf(input);
 
 /*
 	MATRIX a;
