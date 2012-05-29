@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "dataManage.h"
 #include "matrix.h"
 #include "../operator/operator.h"
@@ -74,7 +75,7 @@ char *formatQueriesForSave(char *qs[]) {
 	char *out;
 		out = malloc(MAX_SIZE_OF_QUERY_ENCRYPTION);
 		memset(s, 0, MAX_SIZE_OF_QUERY_ENCRYPTION);
-	char delim[] = "\n";
+	char delim[] = {"\n"};
 
 	sprintf(out, "%s", query);
 	
@@ -87,4 +88,67 @@ char *formatQueriesForSave(char *qs[]) {
 	return out;
 
 }
+
+struct _network *dataLoad(char *matrix_file, char *query_file){
+	
+	int i;
+	char mat_delim[] = {"!*@#$"};
+	char quer_delim[] = {"\n"};
+	char *token;
+	char *enc_queries;
+		enc_queries = malloc(MAX_SIZE_OF_QUERY_ENCRYPTION);
+		memset(enc_queries, 0, MAX_SIZE_OF_QUERY_ENCRYPTION);
+	char *enc_mat;
+		enc_mat = malloc(MAX_SIZE_OF_MATRIX_ENCRYPTION);
+		memset(enc_mat, 0, MAX_SIZE_OF_MATRIX_ENCRYPTION);
+	FILE *iFile;
+	NETWORK n;
+		n = malloc(sizeof(NETWORK));
+		n->weights = malloc(sizeof(MATRIX));
+	
+	// Read matrix file
+	iFile = fopen(matrix_file, "r");
+	fread(enc_mat, MAX_SIZE_OF_MATRIX_ENCRYPTION, 1, iFile);
+	fclose(iFile);
+	
+	// Decrypt matrix file into matrix structure
+	token = strtok(enc_mat, mat_delim);
+	n->weights->rows = atoi(token);
+	token = strtok(NULL, mat_delim);
+	n->weights->cols = atoi(token);
+	n->weights->values = malloc(n->weights->rows * n->weights->cols);
+	token = strtok(NULL, mat_delim);
+	for (i = 0; token; i++) {
+		// Copy token to place in structure
+		n->weights->values[i] = atoi(token);
+		
+		// Grab next token, which can be NULL
+		token = strtok(NULL, mat_delim);
+		
+	}
+	
+	// Read query file
+	iFile = fopen(query_file, "r");
+	fread(enc_queries, MAX_SIZE_OF_QUERY_ENCRYPTION, 1, iFile);
+	fclose(iFile);
+	
+	// Decrypt query file into network structure
+	token = strtok(enc_queries, quer_delim);
+	for (i = 0; token; i++) {
+		// Copy token to place in structure
+		n->queries[i] = malloc(MAX_QUERY_LENGTH);
+		memset(n->queries, 0, MAX_QUERY_LENGTH);
+		strcpy(n->queries[i], token);
+	
+		// Grab next token, which can be NULL
+		token = strtok(NULL, quer_delim);
+		
+	}
+	
+	return n;
+
+}
+
+
+
 
