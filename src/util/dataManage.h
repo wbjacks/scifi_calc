@@ -3,6 +3,7 @@
 #define MAX_FILENAME 20
 #define MAX_SIZE_OF_MATRIX_ENCRYPTION 10000
 #define MAX_SIZE_OF_QUERY_ENCRYPTION 300000
+#define MAX_WEIGHT_DIGITS 5
 
 int dataSave(struct _network *n);
 struct _network *dataLoad(char *matrix_file, char *query_file);

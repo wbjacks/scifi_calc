@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "operator.h"
 #include "../util/matrix.h"
 #include "../util/perceptron.h"
@@ -10,6 +11,7 @@
 void createMatrixThenSubMenu();
 void loadMatrixThenSubMenu();
 void subMenu(NETWORK *n);
+void operateInterface(NETWORK *n);
 
 int main(int argc, char *argv[]) {
 
@@ -101,7 +103,7 @@ void createMatrixThenSubMenu() {
 
 	int i;
 	int val;
-	char *input;
+	char input[MAX_QUERY_LENGTH];
 	NETWORK *n;
 		n = malloc(sizeof(NETWORK));
 			memset(n, 0, sizeof(NETWORK));
@@ -109,13 +111,17 @@ void createMatrixThenSubMenu() {
 	
 	system("clear");
 	
-	printf("NOTE: Maximum of 20 queries.\n");
+	printf("NOTE: Maximum of 20 queries.\n\n");
 	for(i = 0; i < 20; i++) {
-		printf("\nPlease input query: ");
+		printf("Please input query ([q] to complete): ");
 		memset(input, 0, MAX_QUERY_LENGTH);
-		input = malloc(MAX_QUERY_LENGTH);
 		scanf("%s", input);
-		n->queries[i] = input;
+		
+		if (input[0] == 'q')
+			break;
+		
+		n->queries[i] = malloc(MAX_QUERY_LENGTH);
+		strcpy(n->queries[i], input);
 	
 	}
 	
@@ -126,6 +132,10 @@ void createMatrixThenSubMenu() {
 	scanf("%d", &val);
 	memset(((MATRIX *)(n->weights))->values, val, ((MATRIX *)(n->weights))->rows);
 	
+	// Store data in files
+	printf("\n\nSaving...");
+	dataSave(n);
+	
 	subMenu(n);
 	return;
 
@@ -133,7 +143,131 @@ void createMatrixThenSubMenu() {
 
 void subMenu(NETWORK *n) {
 
-	system("clear");
-	printf("Shit!\n");
+	char input[MAX_INPUT_LENGTH];
+
+	while(1) {
+
+		system("clear");
+		printf("Network menu:\n");
+		printf("\t[T]rain loaded matrix\n");
+		printf("\t[O]perate loaded matrix\n");
+		printf("\t[L]oad new matrix\n");
+		printf("\t[E]xit\n");
+		printf("Selection: ");
+	
+		scanf("%s", input);
+	
+		switch (input[0]) {
+			case 't': trainInterface(n); break;
+			case 'o': operateInterface(n); break;
+			case 'l': loadMatrixThenSubMenu(); return;
+			case 'e': return;
+			default: return;
+	
+		}
+	}
+
+}
+
+void operateInterface(NETWORK *n) {
+	
+	int i;
+	char input[MAX_INPUT_LENGTH];
+	MATRIX *in;
+		in = malloc(sizeof(MATRIX));
+		memset(in, 0, sizeof(MATRIX));
+	MATRIX *out;
+		
+	// Construct input
+	in->rows = 1;
+	in->cols = ((MATRIX *)(n->weights))->rows;
+	in->values = malloc(in->cols);
+		memset(in->values, 0, in->cols);
+		
+	// Collect input values
+	for (i = 0; i < in->cols; i++){
+		printf("%s? Binary true / false: ", n->queries[i]);
+		scanf("%s", input);
+		in->values[i] = input[0];
+	
+	}
+	
+	// Operate network
+	out = perceptronOperate(*in, (MATRIX *)(n->weights));
+	
+	// Output
+	if (out->values[0] == 1) {
+		printf("The book is science fiction!");
+	
+	}
+	else {
+		printf("The book is not science fiction.");
+	
+	}
+	
+	// Make sure the user sees the result before the screen is refreshed
+	fflush(stdout);
+	sleep(3);
+	
+	// Clean and return
+	free(in->values);
+	free(in);
+	return;
+
+}
+
+void trainInterface(NETWORK *n) {
+
+	int i;
+	int k_val;
+	char input[MAX_INPUT_LENGTH];
+	MATRIX *in;
+		in = malloc(sizeof(MATRIX));
+		memset(in, 0, sizeof(MATRIX));
+	MATRIX *train;
+		train = malloc(sizeof(MATRIX));
+		memset(train, 0, sizeof(MATRIX));
+	MATRIX *out;
+		
+	// Construct input
+	in->rows = 1;
+	in->cols = ((MATRIX *)(n->weights))->rows;
+	in->values = malloc(in->cols);
+		memset(in->values, 0, in->cols);
+		
+	// Construct training matrix
+	train->rows = 1;
+	train->cols = 1;
+	train->values = malloc(1);
+		memset(train->values, 0, 1);
+		
+	// Collect input values
+	for (i = 0; i < in->cols; i++){
+		printf("%s? Binary true / false: ", n->queries[i]);
+		scanf("%s", input);
+		in->values[i] = input[0];
+	
+	}
+	
+	// Collect training value and k value
+	printf("Please enter training value: ");
+	scanf("%s", input);
+	train->values[0] = input[0];
+	printf("Please enter a k value, which affects the severity of the training: ");
+	scanf("%s", input);
+	k_val = input[0];
+	
+	// Operate network
+	perceptronLearn(k_val, *in, *train, (MATRIX *)(n->weights));
+	
+	// Output
+	printf("New weight matrix:\n");
+	printMatrix(*((MATRIX *)(n->weights)));
+	
+	// Make sure the user sees the result before the screen is refreshed
+	fflush(stdout);
+	sleep(20);
+	
+	return;
 
 }

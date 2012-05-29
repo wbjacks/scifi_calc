@@ -20,8 +20,8 @@ int dataSave(struct _network *n){
 	
 	// Grab matrix file
 	printf("\nPlease input name of file to save matrix: ");
-	scanf("%s\n", filename_matrix);
-	data_path_matrix = strcat(filename_matrix, data_dir);
+	scanf("%s", filename_matrix);
+	data_path_matrix = strcat(data_dir, filename_matrix);
 	
 	// Format output
 	formatted_matrix = formatMatrixForSave((MATRIX *)(n->weights));
@@ -34,9 +34,10 @@ int dataSave(struct _network *n){
 	free(formatted_matrix);
 	
 	// Grab query file
-	printf("\nPlease input name of file to save queries: ");
-	scanf("%s\n", filename_queries);
-	data_path_queries = strcat(filename_queries, data_dir);
+	printf("Please input name of file to save queries: ");
+	scanf("%s", filename_queries);
+	data_dir[8] = 0; // For some reason, strcat removes this.
+	data_path_queries = strcat(data_dir, filename_queries);
 	
 	// Print query file
 	oFile = fopen(data_path_queries, "w");
@@ -55,13 +56,19 @@ char *formatMatrixForSave(struct _matrix *m) {
 	char *s;
 		s = malloc(MAX_SIZE_OF_MATRIX_ENCRYPTION);
 		memset(s, 0, MAX_SIZE_OF_MATRIX_ENCRYPTION);
+	char *num;
+		num = malloc(MAX_WEIGHT_DIGITS);
+		memset(num, 0, MAX_WEIGHT_DIGITS);
 	
-	sprintf(s, "%c%s", m->rows, delim);
-	s = strcat(s, m->cols);
+	sprintf(s, "%d%s\0", m->rows, delim);
+	sprintf(num, "%d", m->cols);
+	s = strcat(s, num);
 	
 	for(i = 0; i < (m->rows * m->cols); i++) {
 		s = strcat(s, delim);
-		s = strcat(s, m->values[i]);
+		memset(num, 0, MAX_WEIGHT_DIGITS);
+		sprintf(num, "%d", m->values[i]);
+		s = strcat(s, num);
 	
 	}
 	
