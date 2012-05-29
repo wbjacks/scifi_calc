@@ -31,7 +31,7 @@ struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, stru
 	// Caclulate error matrix
 	for (i = 0; i < w->rows; i++){
 		for (j = 0; j < w->cols; j++){
-			delta_w->values[j + i * w->cols] = k * (t.values[i] - net_j->values[i]) * in.values[i]; // This might go wrong
+			delta_w->values[j + i * w->cols] = k * (t.values[j] - net_j->values[j]) * in.values[i]; // This might go wrong
 		
 		}
 	}
@@ -42,8 +42,8 @@ struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, stru
 	
 	// Add to weight matrix, free and return
 	temp = matrixAdd(*w, *delta_w);
-	//free(w->values);
-	//free(w);
+	//w falues aren't changed because they are declared and handled in operator.c??
+	free(w);
 	w = temp;
 	printMatrix(*w);
 	free(y->values);
