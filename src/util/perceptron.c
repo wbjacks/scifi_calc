@@ -4,6 +4,22 @@
 #include "perceptron.h"
 #include "matrix.h"
 
+struct _matrix *perceptronOperate(struct _matrix in, struct _matrix *w) {
+
+	MATRIX *y;
+	MATRIX *m;
+	
+	// Calculate output
+	y = matrixMultiply(in, *w);
+	m = fNetJ(*y, 0);
+	
+	// free and return
+	free(y->values);
+	free(y);
+	return m;
+
+}
+
 struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix *w) {
 
 	// Declare appropriate matrices
@@ -15,12 +31,10 @@ struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, stru
 		delta_w->rows = w->rows;
 		delta_w->cols = w->cols;
 		delta_w->values = malloc(delta_w->rows * delta_w->cols);
-	MATRIX *y;
 	MATRIX *temp;
 	
 	// Calculate output
-	y = matrixMultiply(in, *w);
-	net_j = fNetJ(*y, 0);
+	net_j = perceptronOperate(in, w);
 	
 	// Print output and training matrix
 	printf("\n\nLearn Output:\n");
@@ -46,8 +60,6 @@ struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, stru
 	free(w);
 	w = temp;
 	printMatrix(*w);
-	free(y->values);
-	free(y);
 	return;
 	
 }
