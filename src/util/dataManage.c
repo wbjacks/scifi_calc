@@ -1,30 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "dataManage.h"
 #include "matrix.h"
 #include "../operator/operator.h"
+#include "dataManage.h"
 
 int dataSave(struct _network *n){
 
 	FILE *oFile;
 	char *formatted_matrix;
 	char *formatted_queries;
-	char data_dir[] = {"../data/"}
-	char filename_matrix[MAX_FILE_NAME];
-		memset(filename_matrix, 0, MAX_FILE_NAME);
-	char filename_queries[MAX_FILE_NAME];
-		memset(filename_queries, 0, MAX_FILE_NAME);
+	char data_dir[] = "../data/";
+	char filename_matrix[MAX_FILENAME];
+		memset(filename_matrix, 0, MAX_FILENAME);
+	char filename_queries[MAX_FILENAME];
+		memset(filename_queries, 0, MAX_FILENAME);
 	char *data_path_matrix;
 	char *data_path_queries;
 	
 	// Grab matrix file
 	printf("\nPlease input name of file to save matrix: ");
-	scanf("%s\n", filename);
+	scanf("%s\n", filename_matrix);
 	data_path_matrix = strcat(filename_matrix, data_dir);
 	
 	// Format output
-	formatted_matrix = formatMatrixForSave(n->weights);
+	formatted_matrix = formatMatrixForSave((MATRIX *)(n->weights));
 	formatted_queries = formatQueriesForSave(n->queries);
 
 	// Print matrix file
@@ -57,7 +57,7 @@ char *formatMatrixForSave(struct _matrix *m) {
 		memset(s, 0, MAX_SIZE_OF_MATRIX_ENCRYPTION);
 	
 	sprintf(s, "%c%s", m->rows, delim);
-	s = strcat(s, n->cols);
+	s = strcat(s, m->cols);
 	
 	for(i = 0; i < (m->rows * m->cols); i++) {
 		s = strcat(s, delim);
@@ -74,10 +74,10 @@ char *formatQueriesForSave(char *qs[]) {
 	int i;
 	char *out;
 		out = malloc(MAX_SIZE_OF_QUERY_ENCRYPTION);
-		memset(s, 0, MAX_SIZE_OF_QUERY_ENCRYPTION);
+		memset(out, 0, MAX_SIZE_OF_QUERY_ENCRYPTION);
 	char delim[] = {"\n"};
 
-	sprintf(out, "%s", query);
+	sprintf(out, "%s", qs[0]);
 	
 	for (i = 1; qs[i]; i++) {
 		out = strcat(out, delim);
@@ -102,7 +102,7 @@ struct _network *dataLoad(char *matrix_file, char *query_file){
 		enc_mat = malloc(MAX_SIZE_OF_MATRIX_ENCRYPTION);
 		memset(enc_mat, 0, MAX_SIZE_OF_MATRIX_ENCRYPTION);
 	FILE *iFile;
-	NETWORK n;
+	NETWORK *n;
 		n = malloc(sizeof(NETWORK));
 		n->weights = malloc(sizeof(MATRIX));
 	
@@ -113,14 +113,14 @@ struct _network *dataLoad(char *matrix_file, char *query_file){
 	
 	// Decrypt matrix file into matrix structure
 	token = strtok(enc_mat, mat_delim);
-	n->weights->rows = atoi(token);
+	((MATRIX *)(n->weights))->rows = atoi(token);
 	token = strtok(NULL, mat_delim);
-	n->weights->cols = atoi(token);
-	n->weights->values = malloc(n->weights->rows * n->weights->cols);
+	((MATRIX *)(n->weights))->cols = atoi(token);
+	((MATRIX *)(n->weights))->values = malloc(((MATRIX *)(n->weights))->rows * ((MATRIX *)(n->weights))->cols);
 	token = strtok(NULL, mat_delim);
 	for (i = 0; token; i++) {
 		// Copy token to place in structure
-		n->weights->values[i] = atoi(token);
+		((MATRIX *)(n->weights))->values[i] = atoi(token);
 		
 		// Grab next token, which can be NULL
 		token = strtok(NULL, mat_delim);
@@ -148,7 +148,3 @@ struct _network *dataLoad(char *matrix_file, char *query_file){
 	return n;
 
 }
-
-
-
-

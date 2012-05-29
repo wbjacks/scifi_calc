@@ -1,11 +1,17 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "operator.h"
 #include "../util/matrix.h"
 #include "../util/perceptron.h"
+#include "../util/dataManage.h"
 
 
-int main(int argc, char *argv[]){
+void createMatrixThenSubMenu();
+void loadMatrixThenSubMenu();
+void subMenu(NETWORK *n);
+
+int main(int argc, char *argv[]) {
 
 
 	char input[MAX_INPUT_LENGTH];
@@ -19,13 +25,16 @@ int main(int argc, char *argv[]){
 	printf("\t[E]xit\n\n");
 	printf("Selection: ");
 
-	scanf("%s\n", input);
+	scanf("%s", input);
 	
 	switch (input[0]) {
-		case 'c': createMatrixThenMainMenu(); return 0;
+		case 'c': createMatrixThenSubMenu(); return 0;
 		case 'l': loadMatrixThenSubMenu(); return 0;
 		case 'e': return 0;
-		default: fprintf(stderr, "Error: Improper input\n"); main();
+		default:
+			fprintf(stderr, "Error: Improper input\n");
+			main(argc, argv);
+			return 0;
 	
 	}
 	
@@ -68,32 +77,31 @@ int main(int argc, char *argv[]){
 
 void loadMatrixThenSubMenu() {
 	
-	char input[MAX_FILE_NAME_LENGTH];
-	FILE *iFile;
+	char input_mat[MAX_FILENAME];
+	char input_quer[MAX_FILENAME];
 	NETWORK *n;
 	
 	system("clear");
-	printf("Please input filename to load or [ENTER] to exit: ");
-	scanf("%s\n", input);
-	
-	if (!input){
+	printf("Please input matrix filename to load or [ENTER] to exit: ");
+	scanf("%s", input_mat);
+	if (input_mat[0] == '\n')
 		return;
 	
-	}
+	printf("\nPlease input queries filename to load: ");
+	scanf("%s", input_quer);
 	
-	n = dataLoad(input);
+	n = dataLoad(input_mat, input_quer);
 	
 	subMenu(n);
 	return;
 
 }
 
-void createMatrixThenSubMenu {
+void createMatrixThenSubMenu() {
 
 	int i;
 	int val;
 	char *input;
-	FILE *oFile;
 	NETWORK *n;
 		n = malloc(sizeof(NETWORK));
 			memset(n, 0, sizeof(NETWORK));
@@ -106,17 +114,17 @@ void createMatrixThenSubMenu {
 		printf("\nPlease input query: ");
 		memset(input, 0, MAX_QUERY_LENGTH);
 		input = malloc(MAX_QUERY_LENGTH);
-		scanf("%s\n", input);
+		scanf("%s", input);
 		n->queries[i] = input;
 	
 	}
 	
-	n->weights->rows = i;
-	n->weights->cols = 1;
-	n->weights->values = malloc(n->weights->rows);
+	((MATRIX *)(n->weights))->rows = i;
+	((MATRIX *)(n->weights))->cols = 1;
+	((MATRIX *)(n->weights))->values = malloc(((MATRIX *)(n->weights))->rows);
 	printf("Please input initial value of weight matrix: ");
-	scanf("%d\n", &val);
-	memset(n->weights->values, val, n->weights->rows);
+	scanf("%d", &val);
+	memset(((MATRIX *)(n->weights))->values, val, ((MATRIX *)(n->weights))->rows);
 	
 	subMenu(n);
 	return;
