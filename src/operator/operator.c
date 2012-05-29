@@ -188,7 +188,7 @@ void operateInterface(NETWORK *n) {
 	for (i = 0; i < in->cols; i++){
 		printf("%s? Binary true / false: ", n->queries[i]);
 		scanf("%s", input);
-		in->values[i] = input[0];
+		in->values[i] = atoi(input);
 	
 	}
 	
@@ -245,17 +245,17 @@ void trainInterface(NETWORK *n) {
 	for (i = 0; i < in->cols; i++){
 		printf("%s? Binary true / false: ", n->queries[i]);
 		scanf("%s", input);
-		in->values[i] = input[0];
+		in->values[i] = atoi(input);
 	
 	}
 	
 	// Collect training value and k value
 	printf("Please enter training value: ");
 	scanf("%s", input);
-	train->values[0] = input[0];
+	train->values[0] = atoi(input);
 	printf("Please enter a k value, which affects the severity of the training: ");
 	scanf("%s", input);
-	k_val = input[0];
+	k_val = atoi(input);
 	
 	// Operate network
 	perceptronLearn(k_val, *in, *train, (MATRIX *)(n->weights));
