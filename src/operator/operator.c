@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[]){
 
-/*
+
 	char input[MAX_INPUT_LENGTH];
 
 	system("clear");
@@ -20,7 +20,16 @@ int main(int argc, char *argv[]){
 	printf("Selection: ");
 
 	scanf(input);
-*/
+	
+	switch (input[0]) {
+		case 
+	
+	}
+	
+	
+/* //TEST INPUT
+
+
 	MATRIX a;
 	MATRIX *wgt;
 		wgt = malloc(sizeof(MATRIX));
@@ -50,5 +59,6 @@ int main(int argc, char *argv[]){
 	perceptronLearn(1, a, t, wgt);
 	printMatrix(*wgt);
 
+*/
 
 }
