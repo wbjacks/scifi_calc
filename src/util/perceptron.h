@@ -1,3 +1,3 @@
 /* Function Prototypes */
-	MATRIX *fNetJ(MATRIX y, int theta);
-	void perceptronLearn(int k, MATRIX in, MATRIX t, MATRIX *w);
+	struct _matrix *fNetJ(struct _matrix y, int theta);
+	struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix *w);

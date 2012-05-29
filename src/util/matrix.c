@@ -28,7 +28,7 @@ MATRIX *matrixMultiply(MATRIX a, MATRIX b){
 	// Compute matrix
 	for (j = 0; j < a.rows; j++) {
 		for (k = 0; k < b.cols; k++) {
-			for (i = 0, l = 0; i < a.cols, l < b.rows; i++, l++) {
+			for (i = 0, l = 0; i < a.cols; i++, l++) {
 				val += (a.values[i + j*a.cols] * b.values[k + l*b.cols]);
 
 			}
@@ -46,7 +46,7 @@ MATRIX *matrixMultiply(MATRIX a, MATRIX b){
 // Given two input matrices, returns a pointer to their sum
 MATRIX *matrixAdd(MATRIX a, MATRIX b) {
 
-	int i, j, ind;
+	int i, j;
 	MATRIX *m;
 
 	// Check size
@@ -66,8 +66,9 @@ MATRIX *matrixAdd(MATRIX a, MATRIX b) {
 	
 	// Calculate matrix
 	for (i = 0; i < m->rows; i++){
-		for (j = 0; j < m->cols; ++j, ind = j + i * m->cols){
-			m->values[ind] = a.values[ind] + b.values[ind];
+		for (j = 0; j < m->cols; ++j){
+			m->values[j + i * m->cols] =
+				a.values[j + i * m->cols] + b.values[j + i * m->cols];
 		
 		}
 	}
@@ -75,6 +76,35 @@ MATRIX *matrixAdd(MATRIX a, MATRIX b) {
 	return m;
 	
 }
+
+MATRIX *matrixInvert(MATRIX a){
+	
+	int i, j, k, l;
+	MATRIX *m;
+	
+	// Allocate memory for matrix
+	m = malloc(sizeof(MATRIX));
+		memset(m, 0, sizeof(MATRIX));
+		m->rows = a.cols;
+		m->cols = a.rows;
+		m->values = malloc(m->rows * m->cols);
+			memset(m->values, 0, (m->rows * m->cols));
+			
+	for (i = 0, k = 0; i < a.rows; i++, k++) {
+		for (j = 0, l = 0; j < a.cols; j++, l++) {
+			m->values[k + l * m->cols] = a.values[j + i * a.cols];
+			
+		}
+	}
+	
+	printf("\nMatrix Invert:");
+	printMatrix(*m);
+	
+	return m;
+	
+}
+
+
 
 // Prints an input matrix in human-readable format
 void printMatrix(MATRIX m) {

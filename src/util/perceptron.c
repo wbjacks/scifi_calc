@@ -4,21 +4,19 @@
 #include "perceptron.h"
 #include "matrix.h"
 
-void perceptronLearn(int k, MATRIX in, MATRIX t, MATRIX *w) {
+struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix *w) {
 
 	// Declare appropriate matrices
 	int i, j;
-	MATRIX net_j;
-		net_j.rows = t.rows;
-		net_j.cols = t.cols;
-		net_j.values = malloc(net_j.rows * net_j.cols);
-			memset(net_j.values, 0, net_j.rows * net_j.cols);
-	MATRIX delta_w;
-		delta_w.rows = w->rows;
-		delta_w.cols = w->cols;
-		delta_w.values = malloc(delta_w.rows * delta_w.cols);
-			memset(delta_w.values, 0, delta_w.rows * delta_w.cols);
+	MATRIX *net_j;
+	MATRIX *delta_w;
+		delta_w = malloc(sizeof(MATRIX));
+		memset(delta_w, 0, sizeof(MATRIX));
+		delta_w->rows = w->rows;
+		delta_w->cols = w->cols;
+		delta_w->values = malloc(delta_w->rows * delta_w->cols);
 	MATRIX *y;
+	MATRIX *temp;
 	
 	// Calculate output
 	y = matrixMultiply(in, *w);
@@ -31,42 +29,47 @@ void perceptronLearn(int k, MATRIX in, MATRIX t, MATRIX *w) {
 	printMatrix(t);
 	
 	// Caclulate error matrix
-	for (i = 0; i < m->rows; i++){
-		for (j = 0; j < m->cols; ++j, ind = j + i * m->cols){
-			delta_w.values[ind] = k * (t[i] - y[i]) * in[i]; // This might go wrong
+	for (i = 0; i < w->rows; i++){
+		for (j = 0; j < w->cols; j++){
+			delta_w->values[j + i * w->cols] = k * (t.values[i] - net_j->values[i]) * in.values[i]; // This might go wrong
 		
 		}
 	}
 	
 	// Output error matrix
 	printf("\n\nDelta_W Matrix:\n");
-	printMatrix(delta_w);
+	printMatrix(*delta_w);
 	
 	// Add to weight matrix, free and return
-	w = matrixAdd(*w, delta_w);
+	temp = matrixAdd(*w, *delta_w);
+	//free(w->values);
+	//free(w);
+	w = temp;
+	printMatrix(*w);
+	free(y->values);
 	free(y);
 	return;
 	
 }
 
-MATRIX *fNetJ(MATRIX y, int theta){
+struct _matrix *fNetJ(struct _matrix y, int theta){
 
-	int i, j, ind; 
+	int i, j; 
 	MATRIX *m;
 		m = malloc(sizeof(MATRIX));
-		memset(m, 0, sizeof MATRIX);
+		memset(m, 0, sizeof(MATRIX));
 		m->rows = y.rows;
 		m->cols = y.cols;
 		m->values = malloc(m->rows * m->cols);
 		
 	// Make binaries happen
 	for (i = 0; i < m->rows; i++){
-		for (j = 0; j < m->cols; ++j, ind = j + i * m->cols){
-			if (y.values[ind] >= theta) {
-				m->values[ind] = 1;
+		for (j = 0; j < m->cols; j++){
+			if (y.values[j + i * m->cols] >= theta) {
+				m->values[j + i * m->cols] = 1;
 				
 			} else {
-				m->values[ind] = 0;
+				m->values[j + i * m->cols] = 0;
 			}
 		}
 	}

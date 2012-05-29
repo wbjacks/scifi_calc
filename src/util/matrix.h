@@ -15,3 +15,4 @@
 	MATRIX *matrixMultiply(MATRIX a, MATRIX b);
 	MATRIX *matrixAdd(MATRIX a, MATRIX b);
 	void printMatrix(MATRIX m);
+	MATRIX *matrixInvert(MATRIX a);

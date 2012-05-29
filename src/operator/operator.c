@@ -22,10 +22,11 @@ int main(int argc, char *argv[]){
 	scanf(input);
 */
 	MATRIX a;
-	MATRIX b;
-	//MATRIX *result;
+	MATRIX *wgt;
+		wgt = malloc(sizeof(MATRIX));
+		memset(wgt, 0, sizeof(MATRIX));
 	MATRIX t;
-	int val1[] = {1,4,2,4,1,4};
+	int val1[] = {1,0,0,0,1,0};
 	int val2[] = {5,8,7,4,6,8};
 	int val3[] = {0};
 	
@@ -33,21 +34,21 @@ int main(int argc, char *argv[]){
 	t.cols = 1;
 	t.values = val3;
 	
-	a.rows = 6;
-	a.cols = 1;
-	b.rows = 1;
-	b.cols = 6;
+	a.rows = 1;
+	a.cols = 6;
+	wgt->rows = 6;
+	wgt->cols = 1;
 	a.values = val1;
-	b.values = val2;
+	wgt->values = val2;
 
 	
 	printf("\n\nMatrix a:");
 	printMatrix(a);
-	printf("\n\nMatrix b:");
-	printMatrix(b);
+	printf("\n\nWeight Matrix:");
+	printMatrix(*wgt);
 	
-	perceptronLearn(1, a, t, &b);
-	printMatrix(b);
+	perceptronLearn(1, a, t, wgt);
+	printMatrix(*wgt);
 
 
 }
