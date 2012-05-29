@@ -20,7 +20,7 @@ struct _matrix *perceptronOperate(struct _matrix in, struct _matrix *w) {
 
 }
 
-struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix *w) {
+void perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix *w) {
 
 	// Declare appropriate matrices
 	int i, j;
