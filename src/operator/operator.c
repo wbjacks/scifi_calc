@@ -22,7 +22,10 @@ int main(int argc, char *argv[]){
 	scanf(input);
 	
 	switch (input[0]) {
-		case 
+		case 'l': loadMatrixThenSubMenu();
+		case 'c': createMatrixThenMainMenu();
+		case 'e': return 0;
+		default: fprintf(stderr, "Error: Improper input"); main();
 	
 	}
 	
