@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -pedantic -std=c99 -g -ggdb
+CFLAGS=-Wall -pedantic -std=c99 -ggdb
 SOURCES=operator.c operator.h ../util/matrix.c ../util/matrix.h ../util/perceptron.c ../util/perceptron.h ../util/dataManage.c ../util/dataManage.h
 CFILES=operator.c ../util/matrix.c ../util/perceptron.c ../util/dataManage.c
 
@@ -8,6 +8,7 @@ all:
 
 operator:$(SOURCES)
 	$(CC) $(CFLAGS) -o $@ $(CFILES)
+	mv $@ ../../bin
 	
 clean:
 	rm -f temp
@@ -19,6 +20,7 @@ clean:
 	rm -f *.swp 
 	rm -f *#
 	rm -f core*
+	rm -f ../../data/*
 
 run:
-	./operator
+	cd ../../bin; ./operator;
