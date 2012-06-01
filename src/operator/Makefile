@@ -4,8 +4,8 @@ SOURCES=operator.c operator.h ../util/matrix.c ../util/matrix.h ../util/perceptr
 CFILES=operator.c ../util/matrix.c ../util/perceptron.c ../util/dataManage.c
 
 all:
-	make clean; make operator; make run;
-
+	make clean; make operator; 
+	
 operator:$(SOURCES)
 	$(CC) $(CFLAGS) -o $@ $(CFILES)
 	mv $@ ../../bin
@@ -21,6 +21,7 @@ clean:
 	rm -f *#
 	rm -f core*
 	rm -f ../../data/*
+	rm ../../bin/*
 
 run:
 	cd ../../bin; ./operator;

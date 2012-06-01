@@ -5,7 +5,7 @@
 
 struct _network {
 	char *queries[MAX_NUMBER_OF_QUERIES];
-	void *weights; // matrix
+	struct _matrix *weights; // matrix
 
 };
 

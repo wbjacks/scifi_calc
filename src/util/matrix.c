@@ -60,7 +60,7 @@ MATRIX *matrixAdd(MATRIX a, MATRIX b) {
 	m = malloc(sizeof(MATRIX));
 		memset(m, 0, sizeof(MATRIX));
 		m->rows = a.rows;
-		m->cols = b.cols;
+		m->cols = a.cols;
 		m->values = malloc(m->rows * m->cols);
 			memset(m->values, 0, (m->rows * m->cols));
 	

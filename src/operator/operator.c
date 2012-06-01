@@ -12,6 +12,7 @@ void createMatrixThenSubMenu();
 void loadMatrixThenSubMenu();
 void subMenu(NETWORK *n);
 void operateInterface(NETWORK *n);
+void trainInterface(NETWORK *n);
 
 int main(int argc, char *argv[]) {
 
@@ -46,7 +47,7 @@ int main(int argc, char *argv[]) {
 
 	MATRIX a;
 	MATRIX *wgt;
-		wgt = malloc(sizeof(MATRIX));
+		wgt = malloc(sizeof(MATRIX));support
 		memset(wgt, 0, sizeof(MATRIX));
 	MATRIX t;
 	int val1[] = {1,0,0,0,1,0};
@@ -125,12 +126,12 @@ void createMatrixThenSubMenu() {
 	
 	}
 	
-	((MATRIX *)(n->weights))->rows = i;
-	((MATRIX *)(n->weights))->cols = 1;
-	((MATRIX *)(n->weights))->values = malloc(((MATRIX *)(n->weights))->rows);
+	n->weights->rows = i;
+	n->weights->cols = 1;
+	n->weights->values = malloc(n->weights->rows);
 	printf("Please input initial value of weight matrix: ");
 	scanf("%d", &val);
-	memset(((MATRIX *)(n->weights))->values, val, ((MATRIX *)(n->weights))->rows);
+	memset(n->weights->values, val, n->weights->rows);
 	
 	// Store data in files
 	printf("\n\nSaving...");
@@ -146,6 +147,8 @@ void subMenu(NETWORK *n) {
 	char input[MAX_INPUT_LENGTH];
 
 	while(1) {
+	
+		memset(input, 0, MAX_INPUT_LENGTH);
 
 		system("clear");
 		printf("Network menu:\n");
@@ -156,7 +159,7 @@ void subMenu(NETWORK *n) {
 		printf("Selection: ");
 	
 		scanf("%s", input);
-	
+
 		switch (input[0]) {
 			case 't': trainInterface(n); break;
 			case 'o': operateInterface(n); break;
@@ -180,7 +183,7 @@ void operateInterface(NETWORK *n) {
 		
 	// Construct input
 	in->rows = 1;
-	in->cols = ((MATRIX *)(n->weights))->rows;
+	in->cols = n->weights->rows;
 	in->values = malloc(in->cols);
 		memset(in->values, 0, in->cols);
 		
@@ -193,7 +196,7 @@ void operateInterface(NETWORK *n) {
 	}
 	
 	// Operate network
-	out = perceptronOperate(*in, (MATRIX *)(n->weights));
+	out = perceptronOperate(*in, n->weights);
 	
 	// Output
 	if (out->values[0] == 1) {
@@ -227,11 +230,10 @@ void trainInterface(NETWORK *n) {
 	MATRIX *train;
 		train = malloc(sizeof(MATRIX));
 		memset(train, 0, sizeof(MATRIX));
-	MATRIX *out;
 		
 	// Construct input
 	in->rows = 1;
-	in->cols = ((MATRIX *)(n->weights))->rows;
+	in->cols = n->weights->rows;
 	in->values = malloc(in->cols);
 		memset(in->values, 0, in->cols);
 		
@@ -258,16 +260,21 @@ void trainInterface(NETWORK *n) {
 	k_val = atoi(input);
 	
 	// Operate network
-	perceptronLearn(k_val, *in, *train, (MATRIX *)(n->weights));
+	n->weights = perceptronLearn(k_val, *in, *train, n->weights);
 	
 	// Output
 	printf("New weight matrix:\n");
-	printMatrix(*((MATRIX *)(n->weights)));
+	fflush(stdout);
+	printMatrix(*(n->weights));
 	
 	// Make sure the user sees the result before the screen is refreshed
 	fflush(stdout);
-	sleep(20);
+	sleep(10);
 	
+	free(in->values);
+	free(in);
+	free(train->values);
+	free(train);
 	return;
 
 }

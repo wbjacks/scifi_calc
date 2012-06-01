@@ -20,7 +20,7 @@ struct _matrix *perceptronOperate(struct _matrix in, struct _matrix *w) {
 
 }
 
-void perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix *w) {
+struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix *w) {
 
 	// Declare appropriate matrices
 	int i, j;
@@ -58,9 +58,7 @@ void perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix 
 	temp = matrixAdd(*w, *delta_w);
 	//w falues aren't changed because they are declared and handled in operator.c??
 	free(w);
-	w = temp;
-	printMatrix(*w);
-	return;
+	return temp;
 	
 }
 
