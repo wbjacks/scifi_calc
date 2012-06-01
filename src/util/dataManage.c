@@ -119,12 +119,15 @@ struct _network *dataLoad(char *matrix_file, char *query_file){
 	fclose(iFile);
 	
 	// Decrypt matrix file into matrix structure
+	// Grab first two values, representing rows and cols
 	token = strtok(enc_mat, mat_delim);
 	((MATRIX *)(n->weights))->rows = atoi(token);
 	token = strtok(NULL, mat_delim);
 	((MATRIX *)(n->weights))->cols = atoi(token);
 	((MATRIX *)(n->weights))->values = malloc(((MATRIX *)(n->weights))->rows * ((MATRIX *)(n->weights))->cols);
 	token = strtok(NULL, mat_delim);
+	
+	// Grab other values
 	for (i = 0; token; i++) {
 		// Copy token to place in structure
 		((MATRIX *)(n->weights))->values[i] = atoi(token);
@@ -144,8 +147,8 @@ struct _network *dataLoad(char *matrix_file, char *query_file){
 	for (i = 0; token; i++) {
 		// Copy token to place in structure
 		n->queries[i] = malloc(MAX_QUERY_LENGTH);
-		memset(n->queries, 0, MAX_QUERY_LENGTH);
-		strcpy(n->queries[i], token);
+		memset(n->queries[i], 0, MAX_QUERY_LENGTH);
+		sprintf(n->queries[i],"%s\0", token);
 	
 		// Grab next token, which can be NULL
 		token = strtok(NULL, quer_delim);

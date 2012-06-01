@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 
 
 	char input[MAX_INPUT_LENGTH];
-
+	// Output main menu
 	system("clear");
 	printf("Welcome to the Genre Calculator: Science Fiction edition!\n\n\n");
 	printf("Menu:");
@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
 
 	scanf("%s", input);
 	
+	// Operate menu
 	switch (input[0]) {
 		case 'c': createMatrixThenSubMenu(); return 0;
 		case 'l': loadMatrixThenSubMenu(); return 0;
@@ -40,44 +41,9 @@ int main(int argc, char *argv[]) {
 			return 0;
 	
 	}
-	
-	
-/* //TEST INPUT
-
-
-	MATRIX a;
-	MATRIX *wgt;
-		wgt = malloc(sizeof(MATRIX));support
-		memset(wgt, 0, sizeof(MATRIX));
-	MATRIX t;
-	int val1[] = {1,0,0,0,1,0};
-	int val2[] = {5,8,7,4,6,8};
-	int val3[] = {0};
-	
-	t.rows = 1;
-	t.cols = 1;
-	t.values = val3;
-	
-	a.rows = 1;
-	a.cols = 6;
-	wgt->rows = 6;
-	wgt->cols = 1;
-	a.values = val1;
-	wgt->values = val2;
-
-	
-	printf("\n\nMatrix a:");
-	printMatrix(a);
-	printf("\n\nWeight Matrix:");
-	printMatrix(*wgt);
-	
-	perceptronLearn(1, a, t, wgt);
-	printMatrix(*wgt);
-
-*/
-
 }
 
+// Loads a saved matrix, then passes it to the sub-menu
 void loadMatrixThenSubMenu() {
 	
 	char input_mat[MAX_FILENAME];
@@ -100,6 +66,7 @@ void loadMatrixThenSubMenu() {
 
 }
 
+// Creates a new matrix, saves it, then passes it to the sub-menu
 void createMatrixThenSubMenu() {
 
 	int i;
@@ -142,6 +109,7 @@ void createMatrixThenSubMenu() {
 
 }
 
+// Gives the user options for manipulating a loaded network
 void subMenu(NETWORK *n) {
 
 	char input[MAX_INPUT_LENGTH];
@@ -172,6 +140,7 @@ void subMenu(NETWORK *n) {
 
 }
 
+// Allows the user to use a network
 void operateInterface(NETWORK *n) {
 	
 	int i;
@@ -219,6 +188,7 @@ void operateInterface(NETWORK *n) {
 
 }
 
+// Allows the user to train a network
 void trainInterface(NETWORK *n) {
 
 	int i;
