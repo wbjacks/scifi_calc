@@ -3,7 +3,7 @@
 	struct _matrix {
 		int rows;
 		int cols;
-		int *values;
+		float *values;
 	
 	};
 	

@@ -67,7 +67,7 @@ char *formatMatrixForSave(struct _matrix *m) {
 	for(i = 0; i < (m->rows * m->cols); i++) {
 		s = strcat(s, delim);
 		memset(num, 0, MAX_WEIGHT_DIGITS);
-		sprintf(num, "%d", m->values[i]);
+		sprintf(num, "%f", m->values[i]);
 		s = strcat(s, num);
 	
 	}
@@ -115,6 +115,11 @@ struct _network *dataLoad(char *matrix_file, char *query_file){
 	
 	// Read matrix file
 	iFile = fopen(matrix_file, "r");
+	if (iFile == NULL) {
+		fprintf(stderr, "Error: File not found.\n");
+		return NULL;
+	
+	}
 	fread(enc_mat, MAX_SIZE_OF_MATRIX_ENCRYPTION, 1, iFile);
 	fclose(iFile);
 	
@@ -139,6 +144,11 @@ struct _network *dataLoad(char *matrix_file, char *query_file){
 	
 	// Read query file
 	iFile = fopen(query_file, "r");
+	if (iFile == NULL) {
+		fprintf(stderr, "Error: File not found.\n");
+		return NULL;
+	
+	}
 	fread(enc_queries, MAX_SIZE_OF_QUERY_ENCRYPTION, 1, iFile);
 	fclose(iFile);
 	

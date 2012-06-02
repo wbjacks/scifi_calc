@@ -11,7 +11,7 @@ struct _matrix *perceptronOperate(struct _matrix in, struct _matrix *w) {
 	
 	// Calculate output
 	y = matrixMultiply(in, *w);
-	m = fNetJ(*y, 0);
+	m = fNetJ(*y, 0.0);
 	
 	// free and return
 	free(y->values);
@@ -20,7 +20,7 @@ struct _matrix *perceptronOperate(struct _matrix in, struct _matrix *w) {
 
 }
 
-struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, struct _matrix *w) {
+struct _matrix *perceptronLearn(float k, struct _matrix in, struct _matrix t, struct _matrix *w) {
 
 	// Declare appropriate matrices
 	int i, j;
@@ -62,7 +62,7 @@ struct _matrix *perceptronLearn(int k, struct _matrix in, struct _matrix t, stru
 	
 }
 
-struct _matrix *fNetJ(struct _matrix y, int theta){
+struct _matrix *fNetJ(struct _matrix y, float theta){
 
 	int i, j; 
 	MATRIX *m;

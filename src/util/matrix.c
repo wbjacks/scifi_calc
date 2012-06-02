@@ -9,7 +9,7 @@ MATRIX *matrixMultiply(MATRIX a, MATRIX b){
 
 	MATRIX *m;
 	int i, j, k, l;
-	int val = 0;
+	float val = 0.0;
 
 	// Check matrix compatibility
 	if (a.cols != b.rows) {
@@ -34,7 +34,7 @@ MATRIX *matrixMultiply(MATRIX a, MATRIX b){
 			}
 		
 			m->values[k + j*m->cols] = val;
-			val = 0;
+			val = 0.0;
 
 		}
 	}
@@ -117,7 +117,7 @@ void printMatrix(MATRIX m) {
 		printf("| ");
 
 		for (j = 0; j < m.cols; j++){
-			printf("%d ", m.values[j + (i * m.cols)]);
+			printf("%1.2f ", m.values[j + (i * m.cols)]);
 
 		}
 

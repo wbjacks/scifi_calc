@@ -61,6 +61,9 @@ void loadMatrixThenSubMenu() {
 	
 	n = dataLoad(input_mat, input_quer);
 	
+	if (n == NULL)
+		return;
+	
 	subMenu(n);
 	return;
 
@@ -70,7 +73,7 @@ void loadMatrixThenSubMenu() {
 void createMatrixThenSubMenu() {
 
 	int i;
-	int val;
+	float val;
 	char input[MAX_QUERY_LENGTH];
 	NETWORK *n;
 		n = malloc(sizeof(NETWORK));
@@ -97,7 +100,7 @@ void createMatrixThenSubMenu() {
 	n->weights->cols = 1;
 	n->weights->values = malloc(n->weights->rows);
 	printf("Please input initial value of weight matrix: ");
-	scanf("%d", &val);
+	scanf("%f", &val);
 	memset(n->weights->values, val, n->weights->rows);
 	
 	// Store data in files
@@ -144,7 +147,7 @@ void subMenu(NETWORK *n) {
 void operateInterface(NETWORK *n) {
 	
 	int i;
-	char input[MAX_INPUT_LENGTH];
+	float val;
 	MATRIX *in;
 		in = malloc(sizeof(MATRIX));
 		memset(in, 0, sizeof(MATRIX));
@@ -159,8 +162,8 @@ void operateInterface(NETWORK *n) {
 	// Collect input values
 	for (i = 0; i < in->cols; i++){
 		printf("%s? Binary true / false: ", n->queries[i]);
-		scanf("%s", input);
-		in->values[i] = atoi(input);
+		scanf("%f", &val);
+		in->values[i] = val;
 	
 	}
 	
@@ -192,8 +195,7 @@ void operateInterface(NETWORK *n) {
 void trainInterface(NETWORK *n) {
 
 	int i;
-	int k_val;
-	char input[MAX_INPUT_LENGTH];
+	float val, k_val;
 	MATRIX *in;
 		in = malloc(sizeof(MATRIX));
 		memset(in, 0, sizeof(MATRIX));
@@ -201,7 +203,7 @@ void trainInterface(NETWORK *n) {
 		train = malloc(sizeof(MATRIX));
 		memset(train, 0, sizeof(MATRIX));
 		
-	// Construct input
+	// Construct input matrix
 	in->rows = 1;
 	in->cols = n->weights->rows;
 	in->values = malloc(in->cols);
@@ -216,18 +218,18 @@ void trainInterface(NETWORK *n) {
 	// Collect input values
 	for (i = 0; i < in->cols; i++){
 		printf("%s? Binary true / false: ", n->queries[i]);
-		scanf("%s", input);
-		in->values[i] = atoi(input);
+		scanf("%f", &val);
+		in->values[i] = val;
 	
 	}
 	
 	// Collect training value and k value
 	printf("Please enter training value: ");
-	scanf("%s", input);
-	train->values[0] = atoi(input);
+	scanf("%f", &val);
+	train->values[0] = val;
 	printf("Please enter a k value, which affects the severity of the training: ");
-	scanf("%s", input);
-	k_val = atoi(input);
+	scanf("%f", &val);
+	k_val = val;
 	
 	// Operate network
 	n->weights = perceptronLearn(k_val, *in, *train, n->weights);
